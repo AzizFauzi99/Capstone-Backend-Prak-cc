@@ -1,7 +1,14 @@
-steps:
-  # Build the container image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/quantum-device-12345/app-production', '.' ]
-  # Push the container image to Container Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'push', 'gcr.io/quantum-device-12345/app-production' ]
+FROM node:16.16.0-alpine
+# RUN apk add --no-cache g++ make python
+
+WORKDIR /capstone
+# COPY app.js package.json /docker-express/
+COPY . ./
+RUN npm install bcrypt
+RUN npm install --production
+# RUN npm install
+
+
+CMD ["npm", "run", "start"]
+
+EXPOSE 3005
